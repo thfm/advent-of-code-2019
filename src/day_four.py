@@ -4,7 +4,7 @@ INPUTS = range(273025, 767253 + 1)
 
 
 def get_digits(num):
-    return list(map(int, str(num)))
+    return [int(digit) for digit in str(num)]
 
 
 def has_same_adjacent_pair(num):
@@ -18,7 +18,7 @@ def has_same_adjacent_pair(num):
 def never_decreases(num):
     digits = get_digits(num)
     for i in range(len(digits) - 1):
-        if digits[i] > digits[i + 1]:
+        if digits[i + 1] < digits[i]:
             return False
     return True
 
