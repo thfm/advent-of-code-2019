@@ -25,10 +25,10 @@ def calculate_delta_distances(step):
 def calculate_joining_coords(p0, p1):
     joining_coords = []
     if p0[0] != p1[0]:
-        for x in range(min(p0[0], p1[0]) + 1, max(p0[0], p1[0])):
+        for x in range(p0[0] + 1, p1[0], -1 if p0[0] > p1[0] else 1):
             joining_coords.append((x, p0[1]))
     else:
-        for y in range(min(p0[1], p1[1]) + 1, max(p0[1], p1[1])):
+        for y in range(p0[1] + 1, p1[1], -1 if p0[1] > p1[1] else 1):
             joining_coords.append((p0[0], y))
     return joining_coords
 
@@ -76,5 +76,3 @@ def get_closest_intersection(intersections):
 wires = []
 for path in read_input_paths("res/day_three_inputs.txt"):
     wires.append(Wire(calculate_line_coordinates(path)))
-INTERSECTIONS = get_intersections(wires[0], wires[1])
-print(get_closest_intersection(INTERSECTIONS))
