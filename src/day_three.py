@@ -22,57 +22,69 @@ def calculate_delta_distances(step):
     return (dx, dy)
 
 
+def calculate_nums_between(x0, x1):
+    direction = -1 if x0 > x1 else 1
+    return list(range(x0 + direction, x1, direction))
+
+
 def calculate_joining_coords(p0, p1):
     joining_coords = []
     if p0[0] != p1[0]:
-        for x in range(p0[0] + 1, p1[0], -1 if p0[0] > p1[0] else 1):
+        for x in calculate_nums_between(p0[0], p1[0]):
             joining_coords.append((x, p0[1]))
     else:
-        for y in range(p0[1] + 1, p1[1], -1 if p0[1] > p1[1] else 1):
+        for y in calculate_nums_between(p0[1], p1[1]):
             joining_coords.append((p0[0], y))
     return joining_coords
 
 
+BASE_POINT = (0, 0)
+
+
 def calculate_line_coordinates(path):
-    points = [(0, 0)]
-    joining_coords = []
+    points = [BASE_POINT]
+    segments = []
     for i, step in enumerate(path):
-        dists = calculate_delta_distances(step)
+        deltas = calculate_delta_distances(step)
         last_point = points[i]
-        current_point = (last_point[0] + dists[0], last_point[1] + dists[1])
+        current_point = (last_point[0] + deltas[0], last_point[1] + deltas[1])
+        segments.append(calculate_joining_coords(last_point, current_point))
         points.append(current_point)
-        for coord in calculate_joining_coords(last_point, current_point):
-            joining_coords.append(coord)
-    return points + joining_coords
+
+    all_coords = [BASE_POINT]
+    for i, point in enumerate(points[1:]):
+        for coord in segments[i]:
+            all_coords.append(coord)
+        all_coords.append(point)
+    return all_coords
 
 
 class Wire:
-    def __init__(self, coordinates):
-        self.coordinates = coordinates
+    def __init__(self, coords):
+        self.coords = coords
 
 
-# Try with builtin methods? Set 'intersection()'?
 def get_intersections(wire0, wire1):
-    intersections = []
-    for coord in wire0.coordinates:
-        if coord in wire1.coordinates:
-            intersections.append(coord)
-    return list(set(intersections) - set([(0, 0)]))
+    intersects = list(set(wire0.coords).intersection(set(wire1.coords)))
+    intersects.remove(BASE_POINT)
+    return intersects
 
 
-def manhattan_distance(p0, p1):
-    return abs(p1[0] - p0[0]) + abs(p1[1] - p0[1])
+def get_combined_steps(wire0, wire1, intersection):
+    return wire0.coords.index(intersection) + wire1.coords.index(intersection)
 
 
-def get_closest_intersection(intersections):
-    closest = manhattan_distance((0, 0), intersections[0])
+def get_closest_step_intersection(wire0, wire1):
+    intersections = get_intersections(wire0, wire1)
+    closest_steps = get_combined_steps(wire0, wire1, intersections[0])
     for intersect in intersections[1:]:
-        distance = manhattan_distance((0, 0), intersect)
-        if distance < closest:
-            closest = distance
-    return closest
+        steps = get_combined_steps(wire0, wire1, intersect)
+        if steps < closest_steps:
+            closest_steps = steps
+    return closest_steps
 
 
-wires = []
+WIRES = []
 for path in read_input_paths("res/day_three_inputs.txt"):
-    wires.append(Wire(calculate_line_coordinates(path)))
+    WIRES.append(Wire(calculate_line_coordinates(path)))
+print(get_closest_step_intersection(WIRES[0], WIRES[1]))

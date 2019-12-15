@@ -1,23 +1,39 @@
 import unittest
-from src import day_three
+from src.day_three import *
 
 
 class TestCoordinateCalculation(unittest.TestCase):
     def test_delta_distances_calculation(self):
-        self.assertEqual(day_three.calculate_delta_distances("R30"), (30, 0))
-        self.assertEqual(day_three.calculate_delta_distances("L10"), (-10, 0))
-        self.assertEqual(day_three.calculate_delta_distances("U0"), (0, 0))
-        self.assertEqual(day_three.calculate_delta_distances("D23"), (0, -23))
+        self.assertEqual(calculate_delta_distances("R30"), (30, 0))
+        self.assertEqual(calculate_delta_distances("L10"), (-10, 0))
+        self.assertEqual(calculate_delta_distances("U0"), (0, 0))
+        self.assertEqual(calculate_delta_distances("D23"), (0, -23))
+
+
+    def test_nums_in_between_calculation(self):
+        self.assertEqual(calculate_nums_between(5, 10), [6, 7, 8, 9])
+        self.assertEqual(calculate_nums_between(-3, -6), [-4, -5])
+        self.assertEqual(calculate_nums_between(8, 8), [])
 
 
     def test_joining_coordinate_calculation(self):
-        self.assertEqual(day_three.calculate_joining_coords((0, 0), (5, 0)),
+        self.assertEqual(calculate_joining_coords((0, 0), (5, 0)),
                          [(1, 0), (2, 0), (3, 0), (4, 0)])
-        self.assertEqual(day_three.calculate_joining_coords((0, -3), (0, -6)),
+        self.assertEqual(calculate_joining_coords((0, -3), (0, -6)),
                          [(0, -4), (0, -5)])
 
 
-class TestManhattanDistance(unittest.TestCase):
-    def test_manhattan_distance(self):
-        self.assertEqual(day_three.manhattan_distance((3, 0), (7, -4)), 8)
-        self.assertEqual(day_three.manhattan_distance((-5, -5), (-5, 110)), 115)
+class TestIntersectionCalculation(unittest.TestCase):
+    def __init__(self):
+        self.test_wire0 = Wire(["R8", "U5", "L5", "D3"])
+        self.test_wire1 = Wire(["U7", "R6", "D4", "L4"])
+
+
+    def test_intersection_calculation(self):
+        self.assertEqual(get_intersections(self.test_wire0, self.test_wire1),
+                         [(3, 3), (6, 5)])
+
+
+    def test_combined_steps_to_intersection(self):
+        self.assertEqual(get_combined_steps(self.test_wire0, self.test_wire1, (3, 3)), 40)
+        self.assertEqual(get_combined_steps(self.test_wire0, self.test_wire1, (6, 5)), 30)
