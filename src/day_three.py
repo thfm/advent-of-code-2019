@@ -60,8 +60,8 @@ def calculate_line_coordinates(path):
 
 
 class Wire:
-    def __init__(self, coords):
-        self.coords = coords
+    def __init__(self, path):
+        self.coords = calculate_line_coordinates(path)
 
 
 def get_intersections(wire0, wire1):
@@ -86,5 +86,5 @@ def get_closest_step_intersection(wire0, wire1):
 
 WIRES = []
 for path in read_input_paths("res/day_three_inputs.txt"):
-    WIRES.append(Wire(calculate_line_coordinates(path)))
+    WIRES.append(Wire(path))
 print(get_closest_step_intersection(WIRES[0], WIRES[1]))
