@@ -24,16 +24,8 @@ class TestCoordinateCalculation(unittest.TestCase):
 
 
 class TestIntersectionCalculation(unittest.TestCase):
-    def __init__(self):
-        self.test_wire0 = Wire(["R8", "U5", "L5", "D3"])
-        self.test_wire1 = Wire(["U7", "R6", "D4", "L4"])
-
-
     def test_intersection_calculation(self):
-        self.assertEqual(get_intersections(self.test_wire0, self.test_wire1),
-                         [(3, 3), (6, 5)])
-
-
-    def test_combined_steps_to_intersection(self):
-        self.assertEqual(get_combined_steps(self.test_wire0, self.test_wire1, (3, 3)), 40)
-        self.assertEqual(get_combined_steps(self.test_wire0, self.test_wire1, (6, 5)), 30)
+        self.assertEqual(
+            get_intersections(Wire(["R8", "U5", "L5", "D3"]), Wire(["U7", "R6", "D4", "L4"])),
+            [(3, 3), (6, 5)]
+        )
