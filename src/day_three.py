@@ -5,7 +5,7 @@ def read_input_paths(filename):
     return paths
 
 
-def __calculate_delta_distances(step):
+def calculate_delta_distances(step):
     direction = step[0]
     magnitude = int(step[1:])
     dx = dy = 0
@@ -22,7 +22,7 @@ def __calculate_delta_distances(step):
     return (dx, dy)
 
 
-def __calculate_joining_coords(p0, p1):
+def calculate_joining_coords(p0, p1):
     joining_coords = []
     if p0[0] != p1[0]:
         for x in range(min(p0[0], p1[0]) + 1, max(p0[0], p1[0])):
@@ -37,11 +37,11 @@ def calculate_line_coordinates(path):
     points = [(0, 0)]
     joining_coords = []
     for i, step in enumerate(path):
-        dists = __calculate_delta_distances(step)
+        dists = calculate_delta_distances(step)
         last_point = points[i]
         current_point = (last_point[0] + dists[0], last_point[1] + dists[1])
         points.append(current_point)
-        for coord in __calculate_joining_coords(last_point, current_point):
+        for coord in calculate_joining_coords(last_point, current_point):
             joining_coords.append(coord)
     return points + joining_coords
 
