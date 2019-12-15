@@ -1,7 +1,5 @@
 import itertools
 
-INPUTS = range(273025, 767253 + 1)
-
 
 def get_digits(num):
     return [int(digit) for digit in str(num)]
@@ -22,6 +20,8 @@ def never_decreases(num):
             return False
     return True
 
+
+INPUTS = range(273025, 767253 + 1)
 
 count = 0
 for i in INPUTS:
