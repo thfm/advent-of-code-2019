@@ -16,7 +16,7 @@ PARAM_COUNTS = {
 
 def decode_instruction(instruct_code):
     instruct_code = str(instruct_code)
-    while len(instruct_code) < 5:
+    while len(instruct_code) < MAX_PARAMS + 2:
         instruct_code = "0" + instruct_code
     opcode = instruct_code[-2:]
     param_modes = list(instruct_code[:3])
@@ -29,7 +29,7 @@ def run_intcode_program(program):
     pointer = 0
 
     while pointer < len(memory):
-        opcode, p_modes = decode_instruction(memory[pointer])
+        opcode, modes = decode_instruction(memory[pointer])
         if opcode == "99":
             break
         pointer += 1
@@ -39,36 +39,36 @@ def run_intcode_program(program):
             print(f"[ERROR]: Invalid opcode ({opcode})")
             break
 
-        in_params = memory[pointer:pointer + param_count]
-        in_values = []
-        for i, param in enumerate(in_params):
-            in_values.append(memory[param] if p_modes[i] == "0" else param)
+        params = memory[pointer:pointer + param_count]
+        values = []
+        for i, param in enumerate(params):
+            values.append(memory[param] if modes[i] == "0" else param)
         pointer += param_count
 
         result_addr = memory[pointer]
 
         result = None
         if opcode == "01":
-            result = sum(in_values)
+            result = sum(values)
         elif opcode == "02":
             product = 1
-            for num in in_values:
+            for num in values:
                 product *= num
             result = product
         elif opcode == "03":
             result = int(input("[03]: Enter an integer: "))
         elif opcode == "04":
-            print(in_values[0])
+            print(values[0])
         elif opcode == "05":
-            if in_values[0] != 0:
-                pointer = in_values[1]
+            if values[0] != 0:
+                pointer = values[1]
         elif opcode == "06":
-            if in_values[0] == 0:
-                pointer = in_values[1]
+            if values[0] == 0:
+                pointer = values[1]
         elif opcode == "07":
-            result = 1 if in_values[0] < in_values[1] else 0
+            result = 1 if values[0] < values[1] else 0
         elif opcode == "08":
-            result = 1 if in_values[0] == in_values[1] else 0
+            result = 1 if values[0] == values[1] else 0
 
         if result is not None:
             memory[result_addr] = result
