@@ -6,7 +6,11 @@ PARAM_COUNTS = {
     "01": 2,
     "02": 2,
     "03": 0,
-    "04": 1
+    "04": 1,
+    "05": 2,
+    "06": 2,
+    "07": 2,
+    "08": 2
 }
 
 
@@ -55,6 +59,16 @@ def run_intcode_program(program):
             result = int(input("[03]: Enter an integer: "))
         elif opcode == "04":
             print(in_values[0])
+        elif opcode == "05":
+            if in_values[0] != 0:
+                pointer = in_values[1]
+        elif opcode == "06":
+            if in_values[0] == 0:
+                pointer = in_values[1]
+        elif opcode == "07":
+            result = 1 if in_values[0] < in_values[1] else 0
+        elif opcode == "08":
+            result = 1 if in_values[0] == in_values[1] else 0
 
         if result is not None:
             memory[result_addr] = result
