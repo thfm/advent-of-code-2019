@@ -6,10 +6,13 @@ def read_input():
     return modules
 
 
+# Calculates the fuel requirement for a single mass
 def get_fuel_requirement(mass):
     return int(mass / 3) - 2
 
 
+# Calculates the total (recursive) fuel requirement for an
+# entire module
 def get_module_fuel_requirement(module):
     total_fuel = 0
     required_fuel = get_fuel_requirement(module)
