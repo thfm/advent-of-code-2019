@@ -6,6 +6,7 @@ def get_digits(num):
 
 
 def has_same_adjacent_pair(num):
+    # Gets the groups of adjacent numbers
     groups = [list(group) for _, group in itertools.groupby(str(num))]
     for group in groups:
         if len(group) == 2:
@@ -13,6 +14,8 @@ def has_same_adjacent_pair(num):
     return False
 
 
+# Ascertains that each digit in a number is either equal to or
+# greater than the digit to it's left
 def never_decreases(num):
     digits = get_digits(num)
     for i in range(len(digits) - 1):
