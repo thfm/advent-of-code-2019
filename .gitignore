@@ -1,1 +1,3 @@
-*.pyc
+src/__pycache__/*.pyc
+src/intcode/__pycache__/*.pyc
+tests/__pycache__/*.pyc
