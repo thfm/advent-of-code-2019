@@ -1,3 +1,4 @@
+# Creates a dictionary of the direct orbits of each object
 def read_input_orbits(filename):
     direct_orbits = {}
     for line in open(filename).readlines():
