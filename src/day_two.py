@@ -6,6 +6,8 @@ def read_input_program(filename):
     return [int(arg) for arg in args]
 
 
+# Calculates the product of each item in an iterable
+# (e.g. a list)
 def mul(iterable):
     product = 1
     for item in iterable:
@@ -13,12 +15,16 @@ def mul(iterable):
     return product
 
 
+# Runs a simple intcode algorithm on a given instruction
+# sequence (the program)
 def run_intcode_program(program):
+    # Makes a copy of the memory so as not to change the original
+    # program values
     memory = deepcopy(program)
     pointer = 0
     while pointer < len(program):
         opcode = memory[pointer]
-        if opcode == 99:
+        if opcode == 99: # 'Halt' opcode
             break
 
         input_params = memory[pointer + 1:pointer + 3]
