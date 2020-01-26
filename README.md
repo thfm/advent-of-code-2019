@@ -14,7 +14,7 @@ The solutions in this repository are each contained in a single file, and are na
 
 To run the solutions:
 
-1. Download the ```src``` folder in this repository
+1. Download the source code of this repository
 2. Navigate to the downloaded folder using a shell
 3. Input the command: ```python <filename>.py```, replacing ```<filename>``` with the name of the file that you wish to run
 
