@@ -10,7 +10,7 @@ def calculate_orbit_count(orbits):
     count = 0
     for orbit in orbits:
         parent = orbits.get(orbit)
-        while parent != None:
+        while parent is not None:
             count += 1
             parent = orbits.get(parent)
     return count
